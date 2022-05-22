@@ -20,7 +20,7 @@ struct timing_results {
 
 template <typename Func, typename ... Args>
 auto timing_function(Func&& func, Args&&... args) {
-    double mean = 0.0;                  //time in seconds
+    double mean = 0.0;             
     double std_dev = 0.0;
     double mean_first = 0.0;
     std::vector<double> my_vec;
@@ -28,8 +28,8 @@ auto timing_function(Func&& func, Args&&... args) {
     for (size_t i = 0; i < min_n_run; ++i) {
         auto start = std::chrono::steady_clock::now();
         // Function call
-        std::forward<Func>(func) (std::forward<Args>(args)...); //Func(args);     Еще раз требуется объяснение про передачу
-        auto end = std::chrono::steady_clock::now();							// Args и Argv в функцию main 	
+        std::forward<Func>(func) (std::forward<Args>(args)...); //Func(args);     
+        auto end = std::chrono::steady_clock::now();							
         auto time_elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         my_vec.push_back(time_elapsed);
     }
@@ -39,9 +39,9 @@ auto timing_function(Func&& func, Args&&... args) {
     std::vector<double> my_vec_2(0);
     //inserting data from my_vec to my_vec_2
     for (int i = 0; i < _10_percent * 5; ++i){
-        my_vec_2.push_back(my_vec[i + _10_percent]);    //100% есть способ с использованием метода std::copy. 
-    }													//Отправь пожалуйста вариант с методом std::copy
-    //delete my_vec;
+        my_vec_2.push_back(my_vec[i + _10_percent]);     
+    }						
+    //calculation mean time & std_dev
     for (int i = 0; i < _10_percent * 5; ++i){
         mean += my_vec_2[i];
         std_dev += my_vec_2[i] * my_vec_2[i];
